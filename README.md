@@ -3,6 +3,7 @@ A modern and responsive Travel Agency Website built using HTML, CSS, and JavaScr
 
 
 Travel Agency Website
+
 📌 Project Overview
 The Travel Agency Website is a responsive multi-page website developed using HTML, CSS, and JavaScript. It allows users to explore travel destinations, view packages, and contact the agency easily.
 🎯 Features
@@ -16,6 +17,8 @@ The Travel Agency Website is a responsive multi-page website developed using HTM
 HTML5 – For website structure
 CSS3 – For styling and layout design
 JavaScript – For interactivity and validation
+
+
 📁 Project Structure
 
 travel-agency/
