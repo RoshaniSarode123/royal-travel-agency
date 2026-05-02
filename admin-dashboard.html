@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | WanderLuxe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f4f6f8', 900: '#1a202c', gold: '#c5a059', dark: '#0f172a' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="font-sans text-gray-800 bg-brand-50 dark:bg-brand-dark dark:text-gray-200">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white dark:bg-gray-800 shadow-lg flex flex-col justify-between hidden md:flex">
+            <div>
+                <div class="h-20 flex items-center justify-center border-b border-gray-100 dark:border-gray-700">
+                    <a href="../index.html" class="text-xl font-serif font-bold text-brand-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-brand-gold"></i> WanderLuxe Admin
+                    </a>
+                </div>
+                <nav class="p-4 space-y-2">
+                    <a href="#" class="block px-4 py-3 rounded-lg bg-brand-gold text-white font-medium transition"><i class="fa-solid fa-chart-pie w-6"></i> Dashboard</a>
+                    <a href="#" class="block px-4 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"><i class="fa-solid fa-map-location-dot w-6"></i> Destinations</a>
+                    <a href="#" class="block px-4 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"><i class="fa-solid fa-box-open w-6"></i> Packages</a>
+                    <a href="#" class="block px-4 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"><i class="fa-solid fa-calendar-check w-6"></i> Bookings</a>
+                    <a href="#" class="block px-4 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"><i class="fa-solid fa-envelope w-6"></i> Messages</a>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-gray-100 dark:border-gray-700">
+                <button onclick="window.apiHelpers.logout()" class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"><i class="fa-solid fa-right-from-bracket w-6"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden">
+            <!-- Header -->
+            <header class="h-20 bg-white dark:bg-gray-800 shadow-sm flex items-center justify-between px-8 border-b border-gray-100 dark:border-gray-700 shrink-0">
+                <button class="md:hidden text-gray-500"><i class="fa-solid fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold dark:text-white">Overview</h1>
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="text-gray-500 hover:text-brand-gold transition"><i class="fa-solid fa-moon"></i></button>
+                    <div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-white font-bold shadow-md">
+                        A
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="flex-1 overflow-y-auto p-8 bg-brand-50 dark:bg-brand-dark">
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Total Bookings</p>
+                            <h3 class="text-3xl font-bold dark:text-white" id="stat-bookings">-</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center text-xl"><i class="fa-solid fa-ticket"></i></div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Total Packages</p>
+                            <h3 class="text-3xl font-bold dark:text-white" id="stat-packages">-</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center text-xl"><i class="fa-solid fa-box-open"></i></div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Destinations</p>
+                            <h3 class="text-3xl font-bold dark:text-white" id="stat-destinations">-</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-green-100 text-green-500 flex items-center justify-center text-xl"><i class="fa-solid fa-map-location-dot"></i></div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Unread Messages</p>
+                            <h3 class="text-3xl font-bold dark:text-white" id="stat-messages">-</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center text-xl"><i class="fa-solid fa-envelope"></i></div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                        <h2 class="text-lg font-bold dark:text-white">Recent Bookings</h2>
+                        <button class="text-brand-gold text-sm font-medium">View All</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 dark:bg-gray-900/50 text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider">
+                                    <th class="p-4 font-medium">User</th>
+                                    <th class="p-4 font-medium">Package</th>
+                                    <th class="p-4 font-medium">Date</th>
+                                    <th class="p-4 font-medium">Amount</th>
+                                    <th class="p-4 font-medium">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
+                                <tr>
+                                    <td colspan="5" class="p-8 text-center text-gray-500">Loading data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'admin') {
+                alert('Unauthorized access');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            const headers = window.apiHelpers ? window.apiHelpers.getAuthHeader() : {};
+
+            try {
+                // Fetch stats (Mocked by fetching lists and counting)
+                const [bookingsRes, packagesRes, destinationsRes, messagesRes] = await Promise.all([
+                    fetch('http://localhost:5000/api/bookings', { headers }).catch(() => ({ ok: false })),
+                    fetch('http://localhost:5000/api/packages').catch(() => ({ ok: false })),
+                    fetch('http://localhost:5000/api/destinations').catch(() => ({ ok: false })),
+                    fetch('http://localhost:5000/api/contact', { headers }).catch(() => ({ ok: false }))
+                ]);
+
+                if (!bookingsRes.ok) throw new Error('Backend not running');
+
+                const bookings = await bookingsRes.json();
+                const packages = await packagesRes.json();
+                const destinations = await destinationsRes.json();
+                const messages = await messagesRes.json();
+
+                updateStats(
+                    bookings.success ? bookings.data.length : 0,
+                    packages.success ? packages.data.length : 0,
+                    destinations.success ? destinations.data.length : 0,
+                    messages.success ? messages.data.length : 0
+                );
+
+                renderTable(bookings.success ? bookings.data : []);
+
+            } catch (error) {
+                console.error(error);
+                console.log('Using mock data for admin dashboard preview');
+                
+                // Fallback Mock Data
+                updateStats(24, 15, 8, 5);
+                
+                const mockBookings = [
+                    { user: { name: 'John Doe' }, package: { title: 'Romantic Paris Getaway' }, date: new Date().toISOString(), totalPrice: 1299, status: 'confirmed' },
+                    { user: { name: 'Jane Smith' }, package: { title: 'Maldives Overwater Retreat' }, date: new Date().toISOString(), totalPrice: 2499, status: 'pending' },
+                    { user: { name: 'Michael Brown' }, package: { title: 'Tokyo Cultural Experience' }, date: new Date().toISOString(), totalPrice: 1899, status: 'confirmed' }
+                ];
+                renderTable(mockBookings);
+            }
+
+            function updateStats(b, p, d, m) {
+                document.getElementById('stat-bookings').textContent = b;
+                document.getElementById('stat-packages').textContent = p;
+                document.getElementById('stat-destinations').textContent = d;
+                document.getElementById('stat-messages').textContent = m;
+            }
+
+            function renderTable(bookingsData) {
+                const tbody = document.getElementById('bookings-table-body');
+                if (bookingsData && bookingsData.length > 0) {
+                    tbody.innerHTML = '';
+                    bookingsData.slice(0, 5).forEach(b => {
+                        const date = new Date(b.date).toLocaleDateString();
+                        const statusClass = b.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
+                        
+                        const row = `
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                                <td class="p-4 text-gray-800 dark:text-gray-200">${b.user ? b.user.name : 'Unknown User'}</td>
+                                <td class="p-4 text-gray-800 dark:text-gray-200">${b.package ? b.package.title : 'Unknown Package'}</td>
+                                <td class="p-4 text-gray-500 dark:text-gray-400">${date}</td>
+                                <td class="p-4 font-medium text-gray-800 dark:text-gray-200">$${b.totalPrice}</td>
+                                <td class="p-4">
+                                    <span class="px-2 py-1 text-xs rounded-full uppercase tracking-wider font-semibold ${statusClass}">${b.status}</span>
+                                </td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += row;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-gray-500">No bookings found.</td></tr>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

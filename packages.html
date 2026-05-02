@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages | WanderLuxe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f4f6f8', 900: '#1a202c', gold: '#c5a059', dark: '#0f172a' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="font-sans text-gray-800 bg-brand-50 transition-colors duration-300 dark:bg-brand-dark dark:text-gray-200">
+
+    <!-- Navbar -->
+    <nav class="w-full z-40 bg-white dark:bg-brand-dark shadow-md py-4 px-6 md:px-12 sticky top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-serif font-bold text-brand-900 dark:text-white tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-compass text-brand-gold"></i> WanderLuxe
+            </a>
+            
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="../index.html" class="text-gray-800 dark:text-white hover:text-brand-gold transition text-sm uppercase tracking-wide">Home</a>
+                <a href="destinations.html" class="text-gray-800 dark:text-white hover:text-brand-gold transition text-sm uppercase tracking-wide">Destinations</a>
+                <a href="packages.html" class="text-brand-gold font-semibold transition text-sm uppercase tracking-wide">Packages</a>
+                <a href="contact.html" class="text-gray-800 dark:text-white hover:text-brand-gold transition text-sm uppercase tracking-wide">Contact</a>
+                <button id="theme-toggle" class="text-gray-800 dark:text-white hover:text-brand-gold transition">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-800 dark:text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="py-20 bg-brand-900 text-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 container mx-auto px-4" data-aos="fade-up">
+            <h1 class="text-5xl md:text-6xl font-serif font-bold text-white mb-4">Luxury Tour Packages</h1>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto font-light">Carefully crafted itineraries for the ultimate travel experience.</p>
+        </div>
+    </section>
+
+    <!-- Packages Grid -->
+    <section class="py-20">
+        <div class="container mx-auto px-4 md:px-12">
+            <div id="packages-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
+                <!-- Packages will load here -->
+                <div class="col-span-full text-center py-10">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-gold"></div>
+                    <p class="mt-4 text-gray-500">Loading packages...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal (Hidden by default) -->
+    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg p-8 relative transform scale-95 transition-transform duration-300">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-serif font-bold mb-6 text-brand-900 dark:text-white border-b pb-4">Book Tour</h3>
+            <form id="booking-form" class="space-y-4">
+                <input type="hidden" id="package-id">
+                <input type="hidden" id="package-price">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Travel Date</label>
+                    <input type="date" id="date" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-brand-gold focus:border-brand-gold bg-transparent dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Number of Travelers</label>
+                    <input type="number" id="travelers" min="1" value="2" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-brand-gold focus:border-brand-gold bg-transparent dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Special Requests</label>
+                    <textarea id="requests" rows="3" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-brand-gold focus:border-brand-gold bg-transparent dark:text-white"></textarea>
+                </div>
+                <div class="flex justify-between items-center py-4 border-t border-gray-200 dark:border-gray-700 mt-6">
+                    <span class="text-lg font-medium text-gray-800 dark:text-white">Total Amount:</span>
+                    <span id="total-price" class="text-2xl font-bold text-brand-gold">$0</span>
+                </div>
+                <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg transition uppercase tracking-widest">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            AOS.init();
+            
+            const container = document.getElementById('packages-container');
+            const modal = document.getElementById('booking-modal');
+            const closeModal = document.getElementById('close-modal');
+            const form = document.getElementById('booking-form');
+            const travelersInput = document.getElementById('travelers');
+            const totalPriceEl = document.getElementById('total-price');
+            const priceInput = document.getElementById('package-price');
+            
+            // Fetch packages
+            try {
+                const res = await fetch('http://localhost:5000/api/packages');
+                const data = await res.json();
+                
+                if (data.success && data.data.length > 0) {
+                    renderPackages(data.data);
+                } else {
+                    useMockData();
+                }
+            } catch (error) {
+                console.error('Error fetching packages:', error);
+                console.log('Falling back to mock data for preview purposes.');
+                useMockData();
+            }
+
+            function useMockData() {
+                const mockPackages = [
+                    { _id: '1', title: 'Romantic Paris Getaway', price: 1299, rating: 4.8, numReviews: 124, description: 'A 5-day luxurious stay in the heart of Paris, including a private Seine river cruise.', duration: '5 Days / 4 Nights', destination: { name: 'Paris, France' }, image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800' },
+                    { _id: '2', title: 'Dubai Desert Safari Luxury', price: 1599, rating: 4.9, numReviews: 89, description: 'Experience a 7-star hotel stay and an exclusive private desert safari adventure.', duration: '6 Days / 5 Nights', destination: { name: 'Dubai, UAE' }, image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800' },
+                    { _id: '3', title: 'Maldives Overwater Retreat', price: 2499, rating: 5.0, numReviews: 210, description: 'Wake up to the sound of waves in your private overwater villa with personal butler service.', duration: '7 Days / 6 Nights', destination: { name: 'Maldives' }, image: 'https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?q=80&w=800' },
+                    { _id: '4', title: 'Tokyo Cultural Experience', price: 1899, rating: 4.7, numReviews: 156, description: 'A seamless blend of high-end shopping, futuristic sights, and traditional tea ceremonies.', duration: '8 Days / 7 Nights', destination: { name: 'Tokyo, Japan' }, image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=800' },
+                    { _id: '5', title: 'Rome Historical Tour', price: 1450, rating: 4.6, numReviews: 92, description: 'Skip-the-line access to the Colosseum, Vatican, and premium wine tasting tours.', duration: '6 Days / 5 Nights', destination: { name: 'Rome, Italy' }, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=800' },
+                    { _id: '6', title: 'Santorini Sunset Cruise', price: 1750, rating: 4.9, numReviews: 118, description: 'Stay in a luxury cave hotel and enjoy private catamaran cruises along the caldera.', duration: '5 Days / 4 Nights', destination: { name: 'Santorini, Greece' }, image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800' }
+                ];
+                renderPackages(mockPackages);
+            }
+
+            function renderPackages(packages) {
+                container.innerHTML = '';
+                packages.forEach((pkg, index) => {
+                    const delay = (index % 3) * 100;
+                    const destinationName = pkg.destination ? pkg.destination.name : 'Unknown Destination';
+                    
+                    const card = `
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="${delay}">
+                            <div class="relative h-64 overflow-hidden group">
+                                <img src="${pkg.image.startsWith('http') ? pkg.image : 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=800'}" alt="${pkg.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute top-4 right-4 bg-brand-gold text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+                                    $${pkg.price}
+                                </div>
+                                <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4">
+                                    <div class="flex items-center text-yellow-400 text-sm">
+                                        <i class="fa-solid fa-star"></i>
+                                        <span class="ml-1 text-white font-medium">${pkg.rating} (${pkg.numReviews} Reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 flex-1 flex flex-col">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-xl font-serif font-bold text-gray-900 dark:text-white">${pkg.title}</h3>
+                                </div>
+                                <p class="text-brand-gold text-sm font-medium mb-4 uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-1"></i> ${destinationName}</p>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-1 line-clamp-3">${pkg.description}</p>
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                                    <span class="text-gray-500 dark:text-gray-400 text-sm flex items-center"><i class="fa-regular fa-clock mr-2 text-brand-gold"></i> ${pkg.duration}</span>
+                                    <button onclick="openBookingModal('${pkg._id}', ${pkg.price})" class="bg-brand-gold hover:bg-yellow-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition uppercase tracking-wider shadow-md">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            }
+
+            // Modal Logic
+            window.openBookingModal = (id, price) => {
+                if (!window.apiHelpers.isLoggedIn()) {
+                    alert('Please sign in to book a package.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                document.getElementById('package-id').value = id;
+                priceInput.value = price;
+                updatePrice();
+                
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modal.firstElementChild.classList.remove('scale-95');
+                }, 10);
+            };
+
+            closeModal.addEventListener('click', () => {
+                modal.classList.add('opacity-0');
+                modal.firstElementChild.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            });
+
+            const updatePrice = () => {
+                const count = parseInt(travelersInput.value) || 1;
+                const price = parseFloat(priceInput.value) || 0;
+                totalPriceEl.textContent = `$${(count * price).toLocaleString()}`;
+            };
+
+            travelersInput.addEventListener('input', updatePrice);
+
+            // Handle booking submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const pkgId = document.getElementById('package-id').value;
+                const date = document.getElementById('date').value;
+                const travelers = parseInt(travelersInput.value);
+                const requests = document.getElementById('requests').value;
+                const price = parseFloat(priceInput.value);
+                const totalPrice = price * travelers;
+
+                try {
+                    const res = await fetch('http://localhost:5000/api/bookings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...window.apiHelpers.getAuthHeader()
+                        },
+                        body: JSON.stringify({ package: pkgId, date, travelers, specialRequests: requests, totalPrice })
+                    });
+                    
+                    const data = await res.json();
+                    if (data.success) {
+                        alert('Booking successful! We will contact you shortly.');
+                        closeModal.click();
+                        form.reset();
+                    } else {
+                        alert(data.message || 'Booking failed');
+                    }
+                } catch (error) {
+                    alert('Server error. Please try again later.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
