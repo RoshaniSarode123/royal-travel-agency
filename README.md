@@ -1,33 +1,72 @@
-# royal-travel-agency
-A modern and responsive Travel Agency Website built using HTML, CSS, and JavaScript. It offers a clean UI experience with multiple pages including Home, About, Destinations, Packages, and Contact. The project features interactive search, form validation, and a visually appealing design for seamless user experience.
+# WanderLuxe - Premium Travel Agency Platform
 
+WanderLuxe is a modern, visually stunning, full-stack travel agency platform with a luxury theme. It features a responsive HTML/Tailwind frontend and a Node.js/Express backend with MongoDB integration.
 
-Travel Agency Website
+## Features
 
-📌 Project Overview
-The Travel Agency Website is a responsive multi-page website developed using HTML, CSS, and JavaScript. It allows users to explore travel destinations, view packages, and contact the agency easily.
-🎯 Features
-🌐 Multi-page website (Home, About, Destinations, Packages, Contact)
-📱 Fully responsive design (Mobile + Desktop)
-🔍 Search filter for destinations
-📩 Contact form with validation
-🎨 Attractive UI design using CSS
-⚡ Interactive features using JavaScript
-🛠️ Technologies Used
-HTML5 – For website structure
-CSS3 – For styling and layout design
-JavaScript – For interactivity and validation
+**Frontend:**
+- 🎨 Modern, premium luxury design with Glassmorphism
+- 📱 Fully responsive (Tailwind CSS)
+- ✨ Smooth animations (AOS & Custom CSS)
+- 🌙 Dark Mode Support
+- 🔒 Authentication Pages (Login/Register)
+- 🗺️ Destinations and Packages Catalog
+- 💳 Booking System Mockup
+- 📊 Admin Dashboard UI
 
+**Backend:**
+- 🟢 Node.js & Express API
+- 🗄️ MongoDB Database (Mongoose)
+- 🔑 JWT Authentication & bcrypt
+- 🛡️ Role-based access control (Admin/User)
+- 📦 CRUD operations for Packages, Destinations, Bookings, Contacts
 
-📁 Project Structure
+## Setup Instructions
 
-travel-agency/
-│── index.html
-│── about.html
-│── destinations.html
-│── packages.html
-│── contact.html
-│── style.css
-│── script.js
-│── images/
-│     └── travel.jpg
+### Prerequisites
+- Node.js (v14+)
+- MongoDB Atlas account (or local MongoDB)
+
+### 1. Backend Setup
+1. Open the `.env` file in the root directory.
+2. Replace `<username>`, `<password>`, and `your_jwt_secret_key_here` with your actual MongoDB Atlas credentials and a secure random string.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+### 2. Frontend Setup
+The frontend is served directly by the backend for convenience, but you can also run it independently using Live Server or any static server.
+Just open `client/index.html` in your browser or navigate to `http://localhost:5000` after starting the Node server.
+
+## API Endpoints
+
+### Auth
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+
+### Destinations
+- `GET /api/destinations`
+- `POST /api/destinations` (Admin)
+
+### Packages
+- `GET /api/packages`
+- `POST /api/packages` (Admin)
+
+### Bookings
+- `POST /api/bookings` (Private)
+- `GET /api/bookings/mybookings` (Private)
+- `GET /api/bookings` (Admin)
+
+### Contact
+- `POST /api/contact`
+- `GET /api/contact` (Admin)
+
+## Deployment
+
+**Backend:** Deploy the root folder to Render, Railway, or Heroku. Make sure to set Environment Variables.
+**Frontend:** You can deploy the `client` folder to Vercel, Netlify, or GitHub Pages. Note: You will need to update the `API_URL` in `client/js/api.js` to point to your deployed backend URL.
